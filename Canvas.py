@@ -1,8 +1,8 @@
 from tkinter import *
-from ColorCode import colorCode
+#from ColorCode import colorCode
 from Stopwatch import stopwatch
 from Measurement import measurement
-
+from Experiment import experiment
 
 class board(Canvas):
     #Responsibility: Set a field for balls to move on, and set the balls in motion when controls are pressed to do so
@@ -20,6 +20,9 @@ class board(Canvas):
         self.lengthMsg = Label(window, text='max color code length', justify=LEFT)
         self.__codeLengthInput = Entry(window, justify=LEFT)
         self.__canvas = Canvas(window, width=600, height=300, background="lightyellow")
+
+
+        self.__experiment = experiment()
 
         color_frame = Frame(window)
         self.create_button(color_frame, "", click_action=self.submitColor("yellow"), btncolor="yellow")
@@ -51,7 +54,20 @@ class board(Canvas):
             btn.pack(side='left')
 
     def startTest(self):
-        print("Starting test")
+        if self.__experiment.getExperimentLength() < 1:
+            length=1
+            Time=5
+        else:
+            lastMeasurement = self.__experiment.getLastMeasurement()
+            length = lastMeasurement.get()
+            time = lastMeasurement.getTime()
+        colorCode = thisround.getAskedCode()
+        for color in colorCode:
+            code = self.__canvas.create_rectangle(fill=color)
+        for
+        self.__canvas.after(x, self.pack)
+
+
 
     def stopTest(self):
         print("Stopping test")
@@ -64,3 +80,7 @@ class board(Canvas):
 
     def submitColor(self, submitColor):
         print("Submitting color")
+
+    def getLastMeasurement(self):
+        length = self.__experiment.getExperimentLength()
+        self.__experiment.getMeasurement(length-1)
