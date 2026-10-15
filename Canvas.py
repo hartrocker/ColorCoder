@@ -17,7 +17,8 @@ class board(Canvas):
         btn_frame = Frame(window)  # for layouting row of draw buttons
         self.create_label(btn_frame, "Menu ")
         self.create_button(btn_frame, "New code", self.startTest)
-        self.create_button(btn_frame, "Results", self.showResults)
+        self.create_button(btn_frame, "size-succes", self.showResults)
+        self.create_button(btn_frame, "showtime-succes", self.showTimeResults)
 
         #Color input menu
         color_frame = Frame(window)
@@ -62,11 +63,11 @@ class board(Canvas):
     def showResults(self):
         #Responsibility: ask experiment to show it's succes percentages
         self.__experiment.displayPercentage()
+        self.__experiment.ScatterData(dataX='codeLength', dataY='percentRight')
 
-    def exportResults(self):
+    def showTimeResults(self):
         #Responsibility: scatterplot the results
-        print("Exporting results")
-
+        self.__experiment.ScatterData(dataX='showTime', dataY='percentRight')
     def submitYellow(self):
         #Responsibility: Check if it's time to guess, and if so, append yellow to the color guesses
         if self.__guessing:

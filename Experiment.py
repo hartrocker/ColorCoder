@@ -2,6 +2,7 @@ from Measurement import measurement
 from ColorCode import colorCode
 from Stopwatch import stopwatch
 from random import randint
+from Scatterplot import scatterplot
 
 class experiment():
     def __init__(self, canvas):
@@ -98,3 +99,18 @@ class experiment():
         for measurement in self.__testMeasurements:
             print("Experiment was ", measurement.getPercentageRight(), "right")
 
+    def ScatterData(self, dataX, dataY):
+        xDataList = []
+        yDataList = []
+        if dataX =='codeLength' and dataY =='percentRight':
+            for measurement in self.__testMeasurements:
+                xDataList.append(measurement.getLength())
+                yDataList.append(measurement.getPercentageRight())
+            title = "Succesrate for length"
+        elif dataX =='showTime' and dataY =='percentRight':
+            for measurement in self.__testMeasurements:
+                xDataList.append(measurement.getTimeShowed())
+                yDataList.append(measurement.getPercentageRight())
+            title = "Succesrate for time shown"
+        plot = scatterplot(xAxis=dataX, yAxis=dataY, x=xDataList, y=yDataList, title=title)
+        plot.drawPlot()
