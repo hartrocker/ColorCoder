@@ -21,17 +21,17 @@ class measurement:
         #Responsibility: return the time the color code for this measurement was displayed on screen
         return self.__timeShowed
 
-    def getTimeResponse(self):
+    def getTimeGuessed(self):
         #Responsiblitiy: return the time it took the user to enter the guessed code
         return self.__timeResponse
 
-    def getNoGoodpositions(self):
+    def getNrGoodpositions(self):
         #Responsibility: Return the number of colors/positions that the user got right in this code
-        return self.__goodPositions
+        return len(self.__goodPositions)
 
-    def getBadPositions(self):
+    def getNrBadPositions(self):
         #Responsibility: Return the number of colors/positions that the user got wrong in this code
-        return self.__badPositions
+        return len(self.__badPositions)
 
     def getLength(self):
         #Responsiblity: Return how long the current code is
@@ -46,7 +46,7 @@ class measurement:
 
     def getPercentageRight(self):
         #Responsibitity: Return the percentage of colors/positions that have been entered correctly
-        result = len(self.__goodPositions)/self.getLength()*100
+        result = self.getNrGoodpositions()/self.getLength()*100
         return result
 
     def setTimeShowed(self, time):
@@ -75,13 +75,33 @@ class measurement:
                 self.__goodPositions.append(index)
             else:
                 self.__badPositions.append(index)
+        self.showMeasurement()
+
+    def showMeasurement(self):
         print("everything processed")
         print("example code: ", self.__exampleCode.getCode())
         print("guessed code: ", self.__guessedCode.getCode())
         print("good positions: ", len(self.__goodPositions))
         print("bad positions: ", len(self.__badPositions))
         print("showtime: ", self.getTimeShowed())
-        print("guesstime: ", self.getTimeResponse())
+        print("guesstime: ", self.getTimeGuessed())
 
+    def validateMeasurement(self):
+        valid=True
+        if not type(self.__exampleCode) == colorCode or not type(self.__guessedCode) == colorCode:
+            print ("The code(s) are not a colorCode")
+            example = type(self.__exampleCode)
+            guessed = type(self.__guessedCode)
+            print("Example code is ", example, "Guessed code is ", guessed, "")
+            valid = False
+        elif not self.__timeShowed > 0 or not self.__timeResponse > 0:
+            print("Times do not contain valid numbers")
+            valid = False
+        elif (len(self.__badPositions) + len(self.__goodPositions) != self.__exampleCode.getLength()):
+            print("Not enough positions were guessed correctly or incorrectly")
+            valid = False
+        return valid
 
-
+if __name__ == '__main__':
+    import pytest
+    pytest.main(['measurementTest.py', '--cov=Measurement', '--cov-report=term-missing'])

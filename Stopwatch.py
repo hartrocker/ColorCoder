@@ -28,3 +28,8 @@ class stopwatch:
     def stopTimer(self):
         #Responsibility: set stoptime to the current time
         self.__stoptime = time.time()
+
+if __name__ == '__main__':
+    import pytest
+    pytest.main(['stopwatchTest.py', '--cov=Stopwatch', '--cov-report=term-missing'])
+
